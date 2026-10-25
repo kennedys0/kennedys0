@@ -1,0 +1,63 @@
+[
+  {
+    "id": "ch-0801771c-0617-4906-94a9-31028712c6c2",
+    "trackingToken": "c44b570d5ade294298c107db",
+    "challengerName": "Verification Bot",
+    "challengerEmail": "verify@test.org",
+    "title": "BOLA in GraphQL Federation Subgraph",
+    "category": "API Security",
+    "difficulty": "Advanced",
+    "description": "Nested entity resolver lacks tenant isolation checks.",
+    "objective": "Verify if cross-tenant invoice can be retrieved.",
+    "environmentType": "Staging Sandbox",
+    "authorizedScope": "api.staging.example/graphql",
+    "status": "Submitted",
+    "createdAt": "2026-10-25T16:49:45.370Z",
+    "updatedAt": "2026-10-25T16:49:45.370Z"
+  },
+  {
+    "id": "ch-seed-001",
+    "trackingToken": "a4f91b7d8e204c559012beef",
+    "challengerName": "Fintech SecOps Team",
+    "challengerEmail": "security@fintech-partner.example",
+    "title": "Microservices IDOR in Settlement Split API",
+    "category": "API Security",
+    "difficulty": "Advanced",
+    "description": "A multi-tenant settlement transaction service allowed internal split transfers without cross-checking tenant organization boundaries on intermediate ledger nodes.",
+    "objective": "Demonstrate whether an authorized ledger operator can alter split recipients across foreign merchant accounts.",
+    "environmentType": "Staging Multi-Tenant Cluster",
+    "authorizedScope": "api.staging.ledger-settle.internal/v2/splits/*",
+    "reproductionPrerequisites": "Test merchant credentials for two isolated sandbox orgs.",
+    "status": "Solved",
+    "createdAt": "2026-08-14T09:20:00Z",
+    "updatedAt": "2026-08-20T14:30:00Z",
+    "adminNotes": "Confirmed BOLA via batch payload manipulation. Coordinated fix deployed within 72 hours.",
+    "publishedSummary": {
+      "outcome": "Vulnerability verified and patch coordinated. Zero unauthorized funds transferred.",
+      "lessonsLearned": "Decoupled ledger services must enforce organization boundary checks at the object validator layer, not solely in gateway tokens.",
+      "publishedAt": "2026-09-01T10:00:00Z"
+    }
+  },
+  {
+    "id": "ch-seed-002",
+    "trackingToken": "3c8e90f124a87b55d912feed",
+    "challengerName": "Cloud SaaS Infrastructure Lead",
+    "challengerEmail": "infosec@saas-identity.example",
+    "title": "OAuth Dynamic State Relay & CSRF Race Condition",
+    "category": "Authentication",
+    "difficulty": "Expert",
+    "description": "During federated SSO callback, rapid concurrent state exchanges could cause transient session binding desynchronization.",
+    "objective": "Verify if a state parameter can be reused within the 30-second TTL across concurrent browser sessions.",
+    "environmentType": "Pre-Production Staging SSO Portal",
+    "authorizedScope": "auth.preprod.identity-hub.example/oauth/v2/callback",
+    "status": "Solved",
+    "createdAt": "2026-09-10T11:00:00Z",
+    "updatedAt": "2026-09-15T18:00:00Z",
+    "adminNotes": "Identified race window in Redis single-use state invalidation. Solved using atomic Lua script.",
+    "publishedSummary": {
+      "outcome": "State invalidation hardened with atomic Lua transaction script; concurrent reuse rendered impossible.",
+      "lessonsLearned": "Single-use cryptographic state tokens must be invalidated atomically in key-value caches upon first read.",
+      "publishedAt": "2026-09-25T12:00:00Z"
+    }
+  }
+]

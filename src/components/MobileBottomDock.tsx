@@ -21,7 +21,7 @@ export default function MobileBottomDock() {
   return (
     <Box
       sx={{
-        display: { xs: 'flex', lg: 'none' },
+        display: { xs: 'flex', md: 'none' },
         position: 'fixed',
         bottom: 0,
         left: 0,

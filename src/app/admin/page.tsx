@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import {
   Container,
   Box,
@@ -224,18 +225,24 @@ export default function AdminPage() {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
                 <Box
                   sx={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: '8px',
+                    width: 38,
+                    height: 38,
+                    borderRadius: '9px',
                     backgroundColor: clayColors.surfaceInset,
                     border: `1px solid ${clayColors.borderSubtle}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: clayColors.accentPrimary,
+                    p: '4px',
                   }}
                 >
-                  <Lock size={18} />
+                  <Image
+                    src="/logo.png"
+                    alt="FEKOJEWAN Logo"
+                    width={28}
+                    height={28}
+                    style={{ objectFit: 'contain' }}
+                  />
                 </Box>
                 <Typography variant="h6" sx={{ fontWeight: 700, color: clayColors.textPrimary }}>
                   Operator Passkey

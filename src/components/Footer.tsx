@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container, Box, Typography, Grid, Divider } from '@mui/material';
-import { Shield, KeyRound, Mail, GitBranch, FileCheck2 } from 'lucide-react';
+import { KeyRound, Mail, GitBranch, FileCheck2 } from 'lucide-react';
 import { clayColors } from '@/lib/theme';
 
 export default function Footer() {
@@ -31,10 +32,16 @@ export default function Footer() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: clayColors.accentPrimary,
+                  p: '3px',
                 }}
               >
-                <Shield size={16} />
+                <Image
+                  src="/logo.png"
+                  alt="FEKOJEWAN Logo"
+                  width={22}
+                  height={22}
+                  style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                />
               </Box>
               <Typography variant="h6" sx={{ fontWeight: 800, fontSize: '1rem', color: clayColors.textPrimary }}>
                 FEKOJEWAN

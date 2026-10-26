@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   AppBar,
@@ -21,7 +22,6 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import {
-  Shield,
   Menu,
   X,
   Terminal,
@@ -126,17 +126,24 @@ export default function Navbar() {
                 height: 38,
                 borderRadius: '10px',
                 background: 'linear-gradient(135deg, #182332 0%, #111823 100%)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: clayColors.accentPrimary,
+                p: '3px',
                 transition: 'transform 0.1s ease',
                 '&:active': { transform: 'scale(0.96)' },
               }}
             >
-              <Shield size={20} strokeWidth={2.2} />
+              <Image
+                src="/logo.png"
+                alt="FEKOJEWAN Logo"
+                width={32}
+                height={32}
+                style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                priority
+              />
             </Box>
             <Box sx={{ whiteSpace: 'nowrap' }}>
               <Typography
@@ -495,10 +502,16 @@ export default function Navbar() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: clayColors.accentPrimary,
+                p: '3px',
               }}
             >
-              <Shield size={16} />
+              <Image
+                src="/logo.png"
+                alt="FEKOJEWAN Logo"
+                width={22}
+                height={22}
+                style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+              />
             </Box>
             <Typography variant="h6" sx={{ fontWeight: 800, fontSize: '0.98rem', color: clayColors.textPrimary }}>
               FEKOJEWAN

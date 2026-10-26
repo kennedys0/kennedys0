@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container, Box, Typography, Grid, Paper, Chip, Button } from '@mui/material';
 import { Shield, Eye, FileText, Lock, CheckCircle, ArrowRight, Compass, ShieldCheck } from 'lucide-react';
 import { clayColors } from '@/lib/theme';
@@ -11,28 +12,54 @@ export default function AboutPage() {
     <Box sx={{ py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
           {/* Header */}
-          <Box sx={{ mb: 6 }}>
-            <Chip
-              label="RESEARCHER PROFILE"
-              size="small"
+          <Box sx={{ mb: 6, display: 'flex', flexDirection: { xs: 'column-reverse', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', gap: 4 }}>
+            <Box sx={{ maxWidth: 740 }}>
+              <Chip
+                label="RESEARCHER PROFILE"
+                size="small"
+                sx={{
+                  backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                  color: clayColors.accentPrimary,
+                  fontWeight: 700,
+                  fontSize: '0.72rem',
+                  mb: 1.5,
+                }}
+              />
+              <Typography
+                variant="h2"
+                component="h1"
+                sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
+              >
+                About FEKOJEWAN
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 800, lineHeight: 1.65 }}>
+                Independent Bug Bounty Hunter and Security Researcher with a primary focus on Web Application Security and API Security architectures.
+              </Typography>
+            </Box>
+            <Box
               sx={{
-                backgroundColor: 'rgba(56, 189, 248, 0.12)',
-                color: clayColors.accentPrimary,
-                fontWeight: 700,
-                fontSize: '0.72rem',
-                mb: 1.5,
+                width: { xs: 90, sm: 110, md: 124 },
+                height: { xs: 90, sm: 110, md: 124 },
+                borderRadius: '22px',
+                background: 'linear-gradient(135deg, #182332 0%, #111823 100%)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                p: 2,
+                flexShrink: 0,
               }}
-            />
-            <Typography
-              variant="h2"
-              component="h1"
-              sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
             >
-              About FEKOJEWAN
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 800, lineHeight: 1.65 }}>
-              Independent Bug Bounty Hunter and Security Researcher with a primary focus on Web Application Security and API Security architectures.
-            </Typography>
+              <Image
+                src="/logo.png"
+                alt="FEKOJEWAN Logo"
+                width={100}
+                height={100}
+                style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                priority
+              />
+            </Box>
           </Box>
 
         <Grid container spacing={4} sx={{ mb: 8 }}>

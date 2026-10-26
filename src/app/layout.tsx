@@ -45,6 +45,16 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/logo.png', sizes: '1254x1254', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
     title: 'FEKOJEWAN — Breaking Assumptions. Securing Systems.',
     description:
@@ -53,12 +63,21 @@ export const metadata: Metadata = {
     locale: 'en_US',
     siteName: 'FEKOJEWAN Security Research',
     url: siteUrl,
+    images: [
+      {
+        url: '/logo.png',
+        width: 1254,
+        height: 1254,
+        alt: 'FEKOJEWAN Security Research Logo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'FEKOJEWAN — Breaking Assumptions. Securing Systems.',
     description:
       'Independent security researcher specializing in Web Application and API Security.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -87,6 +106,7 @@ const rootStructuredData = {
         '@id': `${siteUrl}/#person`,
       },
       inLanguage: 'en-US',
+      image: `${siteUrl}/logo.png`,
     },
     {
       '@type': 'Person',
@@ -94,6 +114,7 @@ const rootStructuredData = {
       name: 'FEKOJEWAN',
       url: `${siteUrl}/about`,
       email: 'mailto:bounty@fekojewan.my.id',
+      image: `${siteUrl}/logo.png`,
       jobTitle: 'Independent Bug Bounty Hunter & Security Researcher',
       description:
         'Independent security researcher and bug bounty hunter specializing in Web Application Security, API Security, BOLA, and server-side vulnerabilities.',

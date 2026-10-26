@@ -287,11 +287,15 @@ export default function AdminPage() {
                 type="submit"
                 variant="contained"
                 fullWidth
-                disabled={authLoading}
+                disabled={authLoading || !turnstileToken}
                 startIcon={authLoading ? <CircularProgress size={16} /> : <Unlock size={16} />}
                 sx={{ py: 1.2, borderRadius: '10px' }}
               >
-                {authLoading ? 'Verifying...' : 'Authenticate'}
+                {authLoading
+                  ? 'Verifying...'
+                  : !turnstileToken
+                  ? 'Complete CAPTCHA to continue'
+                  : 'Authenticate'}
               </Button>
             </Paper>
           </Box>

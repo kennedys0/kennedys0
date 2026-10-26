@@ -31,21 +31,51 @@ export function verifySecret(input: string, targetSecret: string): boolean {
  */
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
-export function checkRateLimit(ip: string, limit = 5, windowMs = 15 * 60 * 1000): boolean {
+export interface RateLimitResult {
+  allowed: boolean;
+  remaining: number;
+  resetInSeconds: number;
+}
+
+export function checkDetailedRateLimit(
+  bucketKey: string,
+  limit = 5,
+  windowMs = 15 * 60 * 1000
+): RateLimitResult {
   const now = Date.now();
-  const record = rateLimitMap.get(ip);
-  
+  const record = rateLimitMap.get(bucketKey);
+
   if (!record || now > record.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + windowMs });
-    return true;
+    rateLimitMap.set(bucketKey, { count: 1, resetAt: now + windowMs });
+    return {
+      allowed: true,
+      remaining: limit - 1,
+      resetInSeconds: Math.ceil(windowMs / 1000),
+    };
   }
-  
+
   if (record.count >= limit) {
-    return false;
+    return {
+      allowed: false,
+      remaining: 0,
+      resetInSeconds: Math.max(1, Math.ceil((record.resetAt - now) / 1000)),
+    };
   }
-  
+
   record.count += 1;
-  return true;
+  return {
+    allowed: true,
+    remaining: Math.max(0, limit - record.count),
+    resetInSeconds: Math.max(1, Math.ceil((record.resetAt - now) / 1000)),
+  };
+}
+
+export function resetRateLimit(bucketKey: string): void {
+  rateLimitMap.delete(bucketKey);
+}
+
+export function checkRateLimit(ip: string, limit = 5, windowMs = 15 * 60 * 1000): boolean {
+  return checkDetailedRateLimit(ip, limit, windowMs).allowed;
 }
 
 /**

@@ -1,0 +1,28 @@
+# FEKOJEWAN
+
+> Independent Bug Bounty Hunter and Security Researcher specializing in Web Application Security, API Security architectures, and coordinated vulnerability disclosure.
+
+FEKOJEWAN provides deterministic vulnerability research, deep architectural reviews, and interactive challenge environments for modern web applications and distributed microservices. All research activities strictly adhere to coordinated vulnerability disclosure standards and safe harbor commitments.
+
+## Core Capabilities & Attack Surfaces
+- [Technical Expertise](https://fekojewan.com/expertise): Taxonomy of attack surfaces including Broken Object Level Authorization (BOLA/IDOR), Server-Side Request Forgery (SSRF), OAuth/JWT integrity, and business logic state desynchronization.
+- [Research Methodology](https://fekojewan.com/methodology): Structured 8-stage security audit process covering invariant mapping, threat modeling, non-destructive PoC verification, and remediation validation.
+- [Security Stack & Tooling](https://fekojewan.com/tools): Intercepting proxies (Burp Suite Pro, Caido), API orchestration clients (Bruno, Postman), runtime inspectors, and custom security automation.
+
+## Technical Vulnerability Writeups
+- [Dissecting BOLA in Federated GraphQL Subgraphs](https://fekojewan.com/writeups/bola-multitenant-graphql-federation): Root-cause analysis of how decoupled microservice resolvers in Apollo Federation leak tenant contexts, with secure schema directive remediations.
+- [Second-Order Blind SSRF via Asynchronous Webhook Pipelines](https://fekojewan.com/writeups/second-order-ssrf-webhook-pipelines): Analysis of time-of-check to time-of-use DNS rebinding flaws in background worker queues fetching customer webhooks.
+- [Race Conditions in Idempotency-Key Deduplication Logic](https://fekojewan.com/writeups/race-conditions-idempotency-deduplication): Concurrency windows in distributed cache lookups and atomic Redis lock implementation patterns.
+- [All Technical Writeups](https://fekojewan.com/writeups): Complete archive of post-mortems and vulnerability disclosure reports.
+
+## Interactive Labs & Engagements
+- [Security Arena](https://fekojewan.com/arena): Interactive sandboxed exploit labs to test real-world vulnerabilities including BOLA, SSRF, and JWT algorithm confusion.
+- [Security Research Archive](https://fekojewan.com/research): Verified security findings database with reproduction steps, severity metrics, and remediation guidance.
+- [Challenge Me Platform](https://fekojewan.com/challenge): Intake pipeline for engineering teams to submit authorized staging and sandbox targets for security methodology challenges.
+
+## Ethics, Policy & Contact
+- [About & Responsible Disclosure Policy](https://fekojewan.com/about): Coordinated vulnerability disclosure commitments, non-destructive testing rules, and researcher background.
+- [Secure Contact & PGP Key](https://fekojewan.com/contact): Encrypted communication channels, PGP public key fingerprint, and security triage contact info.
+
+## Optional
+- [Full LLM Knowledge Base](https://fekojewan.com/llms-full.txt): Complete markdown export containing the entire text of all writeups, methodologies, and technical reference material in a single file.

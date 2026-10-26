@@ -41,7 +41,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const body = await req.json();
+    let body: any;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json(
+        { error: 'Malformed or empty JSON request payload.' },
+        { status: 400 }
+      );
+    }
+
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json(
+        { error: 'Request body must be a valid JSON object.' },
+        { status: 400 }
+      );
+    }
+
     const {
       challengerName,
       challengerEmail,
@@ -64,25 +80,47 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, message: 'Challenge received' });
     }
 
+    // Helper functions for safe string processing
+    const safeString = (val: unknown): string => (typeof val === 'string' ? val.trim() : '');
+    const coerceOptionalString = (val: unknown): string | undefined => {
+      if (val === undefined || val === null) return undefined;
+      if (typeof val === 'string') {
+        const trimmed = val.trim();
+        return trimmed ? sanitizeText(trimmed) : undefined;
+      }
+      if (Array.isArray(val)) {
+        const joined = val.map((x) => String(x).trim()).filter(Boolean).join(', ');
+        return joined ? sanitizeText(joined) : undefined;
+      }
+      const str = String(val).trim();
+      return str ? sanitizeText(str) : undefined;
+    };
+
     // Mandatory authorization & permission attestation
-    if (!consentAttestation) {
+    if (!consentAttestation || consentAttestation === 'false') {
       return NextResponse.json(
         { error: 'You must attest that you own or have explicit authorization to submit this target environment.' },
         { status: 400 }
       );
     }
 
+    const name = safeString(challengerName);
+    const email = safeString(challengerEmail);
+    const challengeTitle = safeString(title);
+    const desc = safeString(description);
+    const scope = safeString(authorizedScope);
+
     // Required fields validation
-    if (!challengerName?.trim() || !challengerEmail?.trim() || !title?.trim() || !description?.trim() || !authorizedScope?.trim()) {
+    if (!name || !email || !challengeTitle || !desc || !scope) {
       return NextResponse.json(
-        { error: 'Required fields are missing: name, email, title, description, and authorized scope.' },
+        { error: 'Required fields are missing or empty: name, email, title, description, and authorized scope.' },
         { status: 400 }
       );
     }
 
     // Email format check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(challengerEmail.trim())) {
+    if (!emailRegex.test(email)) {
       return NextResponse.json({ error: 'Please provide a valid contact email.' }, { status: 400 });
     }
 
@@ -92,18 +130,18 @@ export async function POST(req: NextRequest) {
     const submission: ChallengeSubmission = {
       id: `ch-${crypto.randomUUID()}`,
       trackingToken,
-      challengerName: sanitizeText(challengerName.trim()),
-      challengerEmail: challengerEmail.trim(), // Stored securely; never exposed in public tracking
-      title: sanitizeText(title.trim()),
-      category: (category || 'Other') as ChallengeCategory,
-      difficulty: (difficulty || 'Intermediate') as ChallengeDifficulty,
-      description: sanitizeText(description.trim()),
-      objective: sanitizeText(objective?.trim() || 'Identify security vulnerability in specified scope.'),
-      environmentType: sanitizeText(environmentType?.trim() || 'Staging / Lab'),
-      authorizedScope: sanitizeText(authorizedScope.trim()),
-      reproductionPrerequisites: reproductionPrerequisites ? sanitizeText(reproductionPrerequisites.trim()) : undefined,
-      referenceLinks: referenceLinks ? sanitizeText(referenceLinks.trim()) : undefined,
-      rulesConstraints: rulesConstraints ? sanitizeText(rulesConstraints.trim()) : undefined,
+      challengerName: sanitizeText(name),
+      challengerEmail: email, // Stored securely; never exposed in public tracking
+      title: sanitizeText(challengeTitle),
+      category: (safeString(category) || 'Other') as ChallengeCategory,
+      difficulty: (safeString(difficulty) || 'Intermediate') as ChallengeDifficulty,
+      description: sanitizeText(desc),
+      objective: coerceOptionalString(objective) || 'Identify security vulnerability in specified scope.',
+      environmentType: coerceOptionalString(environmentType) || 'Staging / Lab',
+      authorizedScope: sanitizeText(scope),
+      reproductionPrerequisites: coerceOptionalString(reproductionPrerequisites),
+      referenceLinks: coerceOptionalString(referenceLinks),
+      rulesConstraints: coerceOptionalString(rulesConstraints),
       status: 'Submitted',
       createdAt: now,
       updatedAt: now,

@@ -10,26 +10,30 @@ export default function AboutPage() {
   return (
     <Box sx={{ py: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 6 }}>
-          <Chip
-            label="RESEARCHER PROFILE"
-            size="small"
-            sx={{
-              backgroundColor: 'rgba(56, 189, 248, 0.12)',
-              color: clayColors.accentPrimary,
-              fontWeight: 700,
-              fontSize: '0.72rem',
-              mb: 1.5,
-            }}
-          />
-          <Typography variant="h2" sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}>
-            About FEKOJEWAN
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 800, lineHeight: 1.65 }}>
-            Independent Bug Bounty Hunter and Security Researcher with a primary focus on Web Application Security and API Security architectures.
-          </Typography>
-        </Box>
+          {/* Header */}
+          <Box sx={{ mb: 6 }}>
+            <Chip
+              label="RESEARCHER PROFILE"
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                color: clayColors.accentPrimary,
+                fontWeight: 700,
+                fontSize: '0.72rem',
+                mb: 1.5,
+              }}
+            />
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
+            >
+              About FEKOJEWAN
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 800, lineHeight: 1.65 }}>
+              Independent Bug Bounty Hunter and Security Researcher with a primary focus on Web Application Security and API Security architectures.
+            </Typography>
+          </Box>
 
         <Grid container spacing={4} sx={{ mb: 8 }}>
           {/* Main Philosophy */}

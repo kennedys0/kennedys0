@@ -31,6 +31,7 @@ import {
 import { clayColors } from '@/lib/theme';
 import { ARENA_EXERCISES } from '@/lib/arena-data';
 import { SyntheticExercise } from '@/types';
+import { InlineMarkdown } from '@/components/MarkdownContent';
 
 export default function ArenaPage() {
   const [selectedExerciseId, setSelectedExerciseId] = React.useState<string>(ARENA_EXERCISES[0].id);
@@ -39,6 +40,9 @@ export default function ArenaPage() {
   const [verifying, setVerifying] = React.useState<boolean>(false);
   const [feedback, setFeedback] = React.useState<{ correct: boolean; message: string } | null>(null);
   const [solvedExercises, setSolvedExercises] = React.useState<Set<string>>(new Set());
+  const [unlockedSolutions, setUnlockedSolutions] = React.useState<
+    Record<string, { explanation: string; remediation: string }>
+  >({});
   const [showHint, setShowHint] = React.useState<boolean>(false);
 
   const currentExercise = ARENA_EXERCISES.find((e) => e.id === selectedExerciseId) || ARENA_EXERCISES[0];
@@ -77,6 +81,15 @@ export default function ArenaPage() {
 
       if (data.correct) {
         setSolvedExercises((prev) => new Set(prev).add(currentExercise.id));
+        if (data.explanation && data.remediation) {
+          setUnlockedSolutions((prev) => ({
+            ...prev,
+            [currentExercise.id]: {
+              explanation: data.explanation,
+              remediation: data.remediation,
+            },
+          }));
+        }
       }
     } catch (err) {
       setFeedback({ correct: false, message: 'Server communication error during flag validation.' });
@@ -114,7 +127,11 @@ export default function ArenaPage() {
               }}
             />
           </Box>
-          <Typography variant="h2" sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 1.5 }}>
+          <Typography
+            variant="h2"
+            component="h1"
+            sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 1.5 }}
+          >
             Security Arena — Web & API Lab
           </Typography>
           <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 880, lineHeight: 1.65 }}>
@@ -493,14 +510,26 @@ export default function ArenaPage() {
                   </Typography>
                 </Box>
                 <Typography variant="body2" sx={{ color: clayColors.textPrimary, mb: 2, lineHeight: 1.65 }}>
-                  {currentExercise.explanation}
+                  <InlineMarkdown
+                    text={
+                      unlockedSolutions[currentExercise.id]?.explanation ||
+                      currentExercise.explanation ||
+                      'Vulnerability verified and architectural root cause analyzed.'
+                    }
+                  />
                 </Typography>
                 <Box sx={{ p: 2, borderRadius: '10px', backgroundColor: clayColors.surfaceInset, border: `1px solid ${clayColors.borderSubtle}` }}>
                   <Typography variant="caption" sx={{ color: clayColors.accentPrimary, fontWeight: 700, display: 'block', mb: 0.5 }}>
                     PREVENTATIVE ENGINEERING REMEDIATION:
                   </Typography>
                   <Typography variant="caption" sx={{ color: clayColors.textSecondary, display: 'block', lineHeight: 1.55 }}>
-                    {currentExercise.remediation}
+                    <InlineMarkdown
+                      text={
+                        unlockedSolutions[currentExercise.id]?.remediation ||
+                        currentExercise.remediation ||
+                        'Apply defense-in-depth authorization context assertion and parameter filters.'
+                      }
+                    />
                   </Typography>
                 </Box>
               </Paper>

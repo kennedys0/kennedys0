@@ -61,7 +61,11 @@ Contact: research@fekojewan.dev
               mb: 1.5,
             }}
           />
-          <Typography variant="h2" sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}>
+          <Typography
+            variant="h2"
+            component="h1"
+            sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
+          >
             Coordinated Contact & Disclosure
           </Typography>
           <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 840, lineHeight: 1.65 }}>

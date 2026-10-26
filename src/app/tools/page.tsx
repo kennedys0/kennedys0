@@ -54,27 +54,31 @@ export default function ToolsPage() {
 
   return (
     <Box sx={{ py: { xs: 4, md: 8 } }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 6 }}>
-          <Chip
-            label="RESEARCH STACK"
-            size="small"
-            sx={{
-              backgroundColor: 'rgba(56, 189, 248, 0.12)',
-              color: clayColors.accentPrimary,
-              fontWeight: 700,
-              fontSize: '0.72rem',
-              mb: 1.5,
-            }}
-          />
-          <Typography variant="h2" sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}>
-            Tools & Technical Workflow
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 840, lineHeight: 1.65 }}>
-            Real-world security research relies on purposeful instrumentation. Here is a transparent breakdown of the primary tools utilized in FEKOJEWAN research and what each contributes to uncovering complex vulnerabilities.
-          </Typography>
-        </Box>
+        <Container maxWidth="lg">
+          {/* Header */}
+          <Box sx={{ mb: 6 }}>
+            <Chip
+              label="RESEARCH STACK"
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                color: clayColors.accentPrimary,
+                fontWeight: 700,
+                fontSize: '0.72rem',
+                mb: 1.5,
+              }}
+            />
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
+            >
+              Tools & Technical Workflow
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 840, lineHeight: 1.65 }}>
+              Real-world security research relies on purposeful instrumentation. Here is a transparent breakdown of the primary tools utilized in FEKOJEWAN research and what each contributes to uncovering complex vulnerabilities.
+            </Typography>
+          </Box>
 
         {/* Tools Grid */}
         <Grid container spacing={3} sx={{ mb: 8 }}>

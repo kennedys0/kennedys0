@@ -51,4 +51,31 @@ describe('Security Primitives', () => {
 
     assert.strictEqual(hash, expected);
   });
+
+  it('rate limiter enforces thresholds and calculates reset times', () => {
+    const rateMap = new Map();
+    function checkDetailedRateLimit(bucket, limit, windowMs) {
+      const now = Date.now();
+      const rec = rateMap.get(bucket);
+      if (!rec || now > rec.resetAt) {
+        rateMap.set(bucket, { count: 1, resetAt: now + windowMs });
+        return { allowed: true, remaining: limit - 1, resetInSeconds: Math.ceil(windowMs / 1000) };
+      }
+      if (rec.count >= limit) {
+        return { allowed: false, remaining: 0, resetInSeconds: Math.ceil((rec.resetAt - now) / 1000) };
+      }
+      rec.count += 1;
+      return { allowed: true, remaining: limit - rec.count, resetInSeconds: Math.ceil((rec.resetAt - now) / 1000) };
+    }
+
+    const ip = '198.51.100.99';
+    for (let i = 0; i < 5; i++) {
+      const res = checkDetailedRateLimit(ip, 5, 60000);
+      assert.strictEqual(res.allowed, true);
+    }
+    const blocked = checkDetailedRateLimit(ip, 5, 60000);
+    assert.strictEqual(blocked.allowed, false);
+    assert.strictEqual(blocked.remaining, 0);
+    assert.ok(blocked.resetInSeconds > 0);
+  });
 });

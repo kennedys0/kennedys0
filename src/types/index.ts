@@ -97,6 +97,6 @@ export interface SyntheticExercise {
     headers: Record<string, string>;
     body: string;
   };
-  explanation: string;
-  remediation: string;
+  explanation?: string;
+  remediation?: string;
 }

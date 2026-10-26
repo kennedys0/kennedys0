@@ -28,6 +28,7 @@ import {
 import { clayColors } from '@/lib/theme';
 import { RESEARCH_FINDINGS } from '@/lib/research-data';
 import { VulnerabilityFinding, SeverityLevel } from '@/types';
+import { InlineMarkdown } from '@/components/MarkdownContent';
 
 export default function ResearchPage() {
   const [selectedDomain, setSelectedDomain] = React.useState<string>('All');
@@ -83,7 +84,11 @@ export default function ResearchPage() {
               mb: 1.5,
             }}
           />
-          <Typography variant="h2" sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}>
+          <Typography
+            variant="h2"
+            component="h1"
+            sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
+          >
             Security Research & Verified Findings
           </Typography>
           <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 840, lineHeight: 1.65 }}>
@@ -333,7 +338,7 @@ export default function ResearchPage() {
                           Remediation Recommendation:
                         </Typography>
                         <Typography variant="body2" sx={{ color: clayColors.textSecondary, lineHeight: 1.6 }}>
-                          {finding.remediation}
+                          <InlineMarkdown text={finding.remediation} />
                         </Typography>
                       </Box>
 

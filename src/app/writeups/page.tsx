@@ -10,27 +10,31 @@ import { WRITEUPS } from '@/lib/writeups-data';
 export default function WriteupsPage() {
   return (
     <Box sx={{ py: { xs: 4, md: 8 } }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 6 }}>
-          <Chip
-            label="KNOWLEDGE BASE"
-            size="small"
-            sx={{
-              backgroundColor: 'rgba(56, 189, 248, 0.12)',
-              color: clayColors.accentPrimary,
-              fontWeight: 700,
-              fontSize: '0.72rem',
-              mb: 1.5,
-            }}
-          />
-          <Typography variant="h2" sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}>
-            Technical Writeups & Analysis
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 840, lineHeight: 1.65 }}>
-            Detailed architectural writeups, exploit mechanics, root cause analyses, and defensive patterns. Authored for security researchers, software engineers, and application architects.
-          </Typography>
-        </Box>
+        <Container maxWidth="lg">
+          {/* Header */}
+          <Box sx={{ mb: 6 }}>
+            <Chip
+              label="KNOWLEDGE BASE"
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                color: clayColors.accentPrimary,
+                fontWeight: 700,
+                fontSize: '0.72rem',
+                mb: 1.5,
+              }}
+            />
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
+            >
+              Technical Writeups & Analysis
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 840, lineHeight: 1.65 }}>
+              Detailed architectural writeups, exploit mechanics, root cause analyses, and defensive patterns. Authored for security researchers, software engineers, and application architects.
+            </Typography>
+          </Box>
 
         {/* Writeups List */}
         <Grid container spacing={3}>

@@ -63,27 +63,31 @@ export default function ExpertisePage() {
 
   return (
     <Box sx={{ py: { xs: 4, md: 8 } }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 6 }}>
-          <Chip
-            label="TECHNICAL FOCUS"
-            size="small"
-            sx={{
-              backgroundColor: 'rgba(56, 189, 248, 0.12)',
-              color: clayColors.accentPrimary,
-              fontWeight: 700,
-              fontSize: '0.72rem',
-              mb: 1.5,
-            }}
-          />
-          <Typography variant="h2" sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}>
-            Areas of Technical Expertise
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 820, lineHeight: 1.65 }}>
-            Organized research focus areas across Web Application Security and API Security. Presented as a rigorous technical taxonomy rather than arbitrary proficiency scores.
-          </Typography>
-        </Box>
+        <Container maxWidth="lg">
+          {/* Header */}
+          <Box sx={{ mb: 6 }}>
+            <Chip
+              label="TECHNICAL FOCUS"
+              size="small"
+              sx={{
+                backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                color: clayColors.accentPrimary,
+                fontWeight: 700,
+                fontSize: '0.72rem',
+                mb: 1.5,
+              }}
+            />
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{ fontSize: { xs: '2rem', md: '2.8rem' }, fontWeight: 800, color: clayColors.textPrimary, mb: 2 }}
+            >
+              Areas of Technical Expertise
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: '1.05rem', color: clayColors.textSecondary, maxWidth: 820, lineHeight: 1.65 }}>
+              Organized research focus areas across Web Application Security and API Security. Presented as a rigorous technical taxonomy rather than arbitrary proficiency scores.
+            </Typography>
+          </Box>
 
         {/* Domain 1: Web Application Security */}
         <Box sx={{ mb: 8 }}>

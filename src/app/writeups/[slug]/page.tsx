@@ -3,10 +3,11 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Container, Box, Typography, Paper, Chip, Button, Divider, Grid } from '@mui/material';
-import { ArrowLeft, Clock, Tag, Share2, Shield, AlertCircle } from 'lucide-react';
+import { Container, Box, Typography, Paper, Chip, Button, Divider } from '@mui/material';
+import { ArrowLeft, Clock } from 'lucide-react';
 import { clayColors } from '@/lib/theme';
 import { WRITEUPS } from '@/lib/writeups-data';
+import { MarkdownContent } from '@/components/MarkdownContent';
 
 export default function WriteupDetailPage({
   params,
@@ -19,94 +20,6 @@ export default function WriteupDetailPage({
   if (!writeup) {
     notFound();
   }
-
-  // Simple clean markdown-like parser for sections and code blocks
-  const renderFormattedContent = (raw: string) => {
-    const lines = raw.trim().split('\n');
-    const elements: React.ReactNode[] = [];
-    let inCodeBlock = false;
-    let codeBuffer: string[] = [];
-    let codeLang = '';
-
-    lines.forEach((line, idx) => {
-      if (line.startsWith('```')) {
-        if (!inCodeBlock) {
-          inCodeBlock = true;
-          codeLang = line.replace('```', '').trim();
-          codeBuffer = [];
-        } else {
-          inCodeBlock = false;
-          elements.push(
-            <Box
-              key={`code-${idx}`}
-              sx={{
-                my: 2.5,
-                p: 2.5,
-                borderRadius: '12px',
-                backgroundColor: clayColors.surfaceInset,
-                border: `1px solid ${clayColors.borderSubtle}`,
-                boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.4)',
-                overflowX: 'auto',
-              }}
-            >
-              {codeLang && (
-                <Typography variant="caption" sx={{ color: clayColors.accentPrimary, fontWeight: 700, mb: 1, display: 'block', textTransform: 'uppercase' }}>
-                  {codeLang}
-                </Typography>
-              )}
-              <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.86rem', color: '#e2e8f0', lineHeight: 1.55 }}>
-                <code>{codeBuffer.join('\n')}</code>
-              </pre>
-            </Box>
-          );
-        }
-      } else if (inCodeBlock) {
-        codeBuffer.push(line);
-      } else if (line.startsWith('### ')) {
-        elements.push(
-          <Typography
-            key={`h3-${idx}`}
-            variant="h5"
-            sx={{
-              fontSize: '1.35rem',
-              fontWeight: 700,
-              color: clayColors.textPrimary,
-              mt: 4,
-              mb: 1.5,
-            }}
-          >
-            {line.replace('### ', '')}
-          </Typography>
-        );
-      } else if (line.startsWith('- ')) {
-        elements.push(
-          <Box key={`li-${idx}`} sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 0.8, pl: 1 }}>
-            <span style={{ color: clayColors.accentPrimary, marginTop: 2 }}>•</span>
-            <Typography variant="body1" sx={{ color: clayColors.textSecondary, fontSize: '0.96rem', lineHeight: 1.65 }}>
-              {line.replace('- ', '')}
-            </Typography>
-          </Box>
-        );
-      } else if (line.trim() !== '') {
-        elements.push(
-          <Typography
-            key={`p-${idx}`}
-            variant="body1"
-            sx={{
-              color: clayColors.textSecondary,
-              fontSize: '0.98rem',
-              lineHeight: 1.7,
-              mb: 2,
-            }}
-          >
-            {line}
-          </Typography>
-        );
-      }
-    });
-
-    return elements;
-  };
 
   return (
     <Box sx={{ py: { xs: 4, md: 8 } }}>
@@ -194,7 +107,9 @@ export default function WriteupDetailPage({
           <Divider sx={{ mb: 4, borderColor: clayColors.borderSubtle }} />
 
           {/* Formatted Content */}
-          <Box sx={{ mb: 6 }}>{renderFormattedContent(writeup.content)}</Box>
+          <Box sx={{ mb: 6 }}>
+            <MarkdownContent content={writeup.content} />
+          </Box>
 
           {/* Tags */}
           <Box sx={{ pt: 3, borderTop: `1px solid ${clayColors.borderSubtle}`, display: 'flex', flexWrap: 'wrap', gap: 1 }}>

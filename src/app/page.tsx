@@ -62,36 +62,6 @@ export default function HomePage() {
           />
 
           <Box sx={{ maxWidth: 840 }}>
-            {/* Status & Identity Indicator */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-              <Chip
-                icon={<Shield size={13} color={clayColors.accentPrimary} />}
-                label="INDEPENDENT SECURITY RESEARCHER"
-                size="small"
-                sx={{
-                  backgroundColor: clayColors.surfaceInset,
-                  border: `1px solid ${clayColors.borderSubtle}`,
-                  color: clayColors.textPrimary,
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  px: 0.5,
-                }}
-              />
-              <Chip
-                label="ETHICAL DISCLOSURE"
-                size="small"
-                sx={{
-                  backgroundColor: 'rgba(52, 211, 153, 0.1)',
-                  border: '1px solid rgba(52, 211, 153, 0.25)',
-                  color: clayColors.success,
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                }}
-              />
-            </Box>
-
             {/* Headline */}
             <Typography
               variant="h1"

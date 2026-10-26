@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { clayColors } from '@/lib/theme';
 import { ChallengeSubmission, ChallengeStatus } from '@/types';
+import { TurnstileWidget, TurnstileWidgetHandle } from '@/components/TurnstileWidget';
 
 const STATUS_OPTIONS: ChallengeStatus[] = [
   'Submitted',
@@ -46,6 +47,8 @@ const STATUS_OPTIONS: ChallengeStatus[] = [
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = React.useState(false);
   const [password, setPassword] = React.useState('');
+  const [turnstileToken, setTurnstileToken] = React.useState<string | null>(null);
+  const turnstileRef = React.useRef<TurnstileWidgetHandle>(null);
   const [authLoading, setAuthLoading] = React.useState(false);
   const [authError, setAuthError] = React.useState<string | null>(null);
 
@@ -65,13 +68,19 @@ export default function AdminPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError(null);
+
+    if (!turnstileToken) {
+      setAuthError('Please verify the Cloudflare CAPTCHA before signing in.');
+      return;
+    }
+
     setAuthLoading(true);
 
     try {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ password, turnstileToken }),
       });
 
       const data = await res.json();
@@ -83,6 +92,9 @@ export default function AdminPage() {
       loadAdminChallenges();
     } catch (err: any) {
       setAuthError(err.message || 'Invalid administrative passkey.');
+      // Reset Turnstile challenge on auth failure
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     } finally {
       setAuthLoading(false);
     }
@@ -248,8 +260,21 @@ export default function AdminPage() {
                 placeholder="Enter passkey..."
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                sx={{ mb: 3 }}
+                sx={{ mb: 2.5 }}
               />
+
+              {/* Cloudflare Turnstile CAPTCHA */}
+              <Box sx={{ mb: 3 }}>
+                <TurnstileWidget
+                  ref={turnstileRef}
+                  onVerify={(token) => {
+                    setTurnstileToken(token);
+                    setAuthError(null);
+                  }}
+                  onExpire={() => setTurnstileToken(null)}
+                  onError={() => setTurnstileToken(null)}
+                />
+              </Box>
 
               <Button
                 type="submit"
@@ -261,10 +286,6 @@ export default function AdminPage() {
               >
                 {authLoading ? 'Verifying...' : 'Authenticate'}
               </Button>
-
-              <Typography variant="caption" sx={{ color: clayColors.textMuted, display: 'block', mt: 2, textAlign: 'center' }}>
-                Default local passkey: <code>fekojewan-sec-review-2026</code>
-              </Typography>
             </Paper>
           </Box>
         ) : (
@@ -313,14 +334,14 @@ export default function AdminPage() {
                               c.status === 'Solved'
                                 ? 'rgba(52, 211, 153, 0.2)'
                                 : c.status === 'In Progress'
-                                ? 'rgba(56, 189, 248, 0.2)'
-                                : clayColors.surfaceInset,
+                                  ? 'rgba(56, 189, 248, 0.2)'
+                                  : clayColors.surfaceInset,
                             color:
                               c.status === 'Solved'
                                 ? clayColors.success
                                 : c.status === 'In Progress'
-                                ? clayColors.accentPrimary
-                                : clayColors.textPrimary,
+                                  ? clayColors.accentPrimary
+                                  : clayColors.textPrimary,
                           }}
                         />
                         <Chip label={c.category} size="small" sx={{ backgroundColor: clayColors.surfaceInset }} />

@@ -2,7 +2,10 @@ import { MetadataRoute } from 'next';
 import { WRITEUPS } from '@/lib/writeups-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://fekojewan.dev';
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://fekojewan.com');
 
   const staticPages = [
     '',

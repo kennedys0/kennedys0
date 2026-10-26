@@ -31,12 +31,12 @@ export default function ContactPage() {
   const pgpKeyFingerprint = '4A8E 9B01 2F6D 8C33 1A90 E7B2 9940 3F1D 82C1 00E4';
   const pgpPublicKey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: OpenPGP.js v5.0.0
-Comment: https://fekojewan.dev/pgp
+Comment: https://fekojewan.com/contact
 
 mQGNBF/9...FEKOJEWAN Security Research Master Key
 4A8E9B012F6D8C331A90E7B299403F1D82C100E4
 Subkey: ed25519 / cv25519
-Contact: research@fekojewan.dev
+Contact: bounty@fekojewan.my.id
 -----END PGP PUBLIC KEY BLOCK-----`;
 
   const copyPgp = () => {
@@ -99,8 +99,19 @@ Contact: research@fekojewan.dev
                       Encrypted Research Email
                     </Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ fontFamily: 'monospace', color: clayColors.accentPrimary, fontSize: '0.95rem' }}>
-                    research@fekojewan.dev
+                  <Typography
+                    component="a"
+                    href="mailto:bounty@fekojewan.my.id"
+                    variant="body2"
+                    sx={{
+                      fontFamily: 'monospace',
+                      color: clayColors.accentPrimary,
+                      fontSize: '0.95rem',
+                      textDecoration: 'none',
+                      '&:hover': { textDecoration: 'underline' },
+                    }}
+                  >
+                    bounty@fekojewan.my.id
                   </Typography>
                   <Typography variant="caption" sx={{ color: clayColors.textMuted, display: 'block', mt: 0.5 }}>
                     For security inquiries, vulnerability coordination, and research correspondence. Please encrypt sensitive technical details using the PGP key below.

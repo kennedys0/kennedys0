@@ -212,7 +212,7 @@ def process_order(idempotency_key, payload):
 
 ## 6. Secure Contact & Responsible Disclosure
 
-- **Email**: contact@fekojewan.com
+- **Email**: bounty@fekojewan.my.id
 - **PGP Fingerprint**: `94B2 C184 73F2 1509 8DF4  6241 C829 104F 89A2 31E5`
 - **PGP Key Server**: `hkps://keys.openpgp.org`
 - **Response Commitment**: Initial triage response within 24 to 48 business hours.

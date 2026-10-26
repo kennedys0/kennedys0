@@ -38,6 +38,7 @@ const contactStructuredData = {
       name: 'Secure Contact & PGP Key: Coordinated Disclosure — FEKOJEWAN',
       description:
         'Direct, encrypted communication channels for security research inquiries, bug bounty triage teams, and authorized challenge coordination.',
+      email: 'mailto:bounty@fekojewan.my.id',
       isPartOf: {
         '@type': 'WebSite',
         '@id': `${siteUrl}/#website`,

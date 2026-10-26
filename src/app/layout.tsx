@@ -93,6 +93,7 @@ const rootStructuredData = {
       '@id': `${siteUrl}/#person`,
       name: 'FEKOJEWAN',
       url: `${siteUrl}/about`,
+      email: 'mailto:bounty@fekojewan.my.id',
       jobTitle: 'Independent Bug Bounty Hunter & Security Researcher',
       description:
         'Independent security researcher and bug bounty hunter specializing in Web Application Security, API Security, BOLA, and server-side vulnerabilities.',

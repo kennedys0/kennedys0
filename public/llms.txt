@@ -22,7 +22,7 @@ FEKOJEWAN provides deterministic vulnerability research, deep architectural revi
 
 ## Ethics, Policy & Contact
 - [About & Responsible Disclosure Policy](https://fekojewan.com/about): Coordinated vulnerability disclosure commitments, non-destructive testing rules, and researcher background.
-- [Secure Contact & PGP Key](https://fekojewan.com/contact): Encrypted communication channels, PGP public key fingerprint, and security triage contact info.
+- [Secure Contact & PGP Key](https://fekojewan.com/contact): Encrypted communication channels (`bounty@fekojewan.my.id`), PGP public key fingerprint, and security triage contact info.
 
 ## Optional
 - [Full LLM Knowledge Base](https://fekojewan.com/llms-full.txt): Complete markdown export containing the entire text of all writeups, methodologies, and technical reference material in a single file.

@@ -53,6 +53,19 @@ export default function AdminPage() {
   const [authLoading, setAuthLoading] = React.useState(false);
   const [authError, setAuthError] = React.useState<string | null>(null);
 
+  const handleTurnstileVerify = React.useCallback((token: string) => {
+    setTurnstileToken(token);
+    setAuthError(null);
+  }, []);
+
+  const handleTurnstileExpire = React.useCallback(() => {
+    setTurnstileToken(null);
+  }, []);
+
+  const handleTurnstileError = React.useCallback(() => {
+    setTurnstileToken(null);
+  }, []);
+
   // Dashboard State
   const [challenges, setChallenges] = React.useState<ChallengeSubmission[]>([]);
   const [loadingChallenges, setLoadingChallenges] = React.useState(false);
@@ -274,12 +287,9 @@ export default function AdminPage() {
               <Box sx={{ mb: 3 }}>
                 <TurnstileWidget
                   ref={turnstileRef}
-                  onVerify={(token) => {
-                    setTurnstileToken(token);
-                    setAuthError(null);
-                  }}
-                  onExpire={() => setTurnstileToken(null)}
-                  onError={() => setTurnstileToken(null)}
+                  onVerify={handleTurnstileVerify}
+                  onExpire={handleTurnstileExpire}
+                  onError={handleTurnstileError}
                 />
               </Box>
 

@@ -44,9 +44,19 @@ export const TurnstileWidget = React.forwardRef<TurnstileWidgetHandle, Turnstile
   ) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const widgetIdRef = React.useRef<string | null>(null);
-    const [scriptLoaded, setScriptLoaded] = React.useState(false);
     const [isVerified, setIsVerified] = React.useState(false);
     const [scriptError, setScriptError] = React.useState(false);
+
+    // Keep callbacks in refs to avoid re-triggering effects when callback functions change
+    const onVerifyRef = React.useRef(onVerify);
+    const onExpireRef = React.useRef(onExpire);
+    const onErrorRef = React.useRef(onError);
+
+    React.useEffect(() => {
+      onVerifyRef.current = onVerify;
+      onExpireRef.current = onExpire;
+      onErrorRef.current = onError;
+    });
 
     const activeSiteKey =
       siteKey ||
@@ -58,13 +68,9 @@ export const TurnstileWidget = React.forwardRef<TurnstileWidgetHandle, Turnstile
         return;
       }
 
+      // If widget is already rendered, do nothing (prevents destructive flickering)
       if (widgetIdRef.current) {
-        try {
-          window.turnstile.remove(widgetIdRef.current);
-        } catch {
-          // ignore
-        }
-        widgetIdRef.current = null;
+        return;
       }
 
       try {
@@ -73,22 +79,22 @@ export const TurnstileWidget = React.forwardRef<TurnstileWidgetHandle, Turnstile
           theme: theme,
           callback: (token: string) => {
             setIsVerified(true);
-            onVerify(token);
+            onVerifyRef.current?.(token);
           },
           'expired-callback': () => {
             setIsVerified(false);
-            onExpire?.();
+            onExpireRef.current?.();
           },
           'error-callback': (code?: string) => {
             setIsVerified(false);
-            onError?.(code);
+            onErrorRef.current?.(code);
           },
         });
         widgetIdRef.current = id;
       } catch (err) {
         console.error('Failed to render Turnstile widget:', err);
       }
-    }, [activeSiteKey, theme, onVerify, onExpire, onError]);
+    }, [activeSiteKey, theme]);
 
     React.useImperativeHandle(ref, () => ({
       reset: () => {
@@ -104,37 +110,49 @@ export const TurnstileWidget = React.forwardRef<TurnstileWidgetHandle, Turnstile
     }));
 
     React.useEffect(() => {
-      if (typeof window !== 'undefined' && window.turnstile) {
+      if (typeof window === 'undefined') return;
+
+      // 1. If Turnstile is already loaded globally, render immediately
+      if (window.turnstile) {
         renderWidget();
       }
-    }, [scriptLoaded, renderWidget]);
 
-    // Timeout fallback for offline or restricted environments
-    React.useEffect(() => {
-      const timer = setTimeout(() => {
-        if (!scriptLoaded && typeof window !== 'undefined' && !window.turnstile) {
+      // 2. Poll briefly in case Script onLoad was missed (common in client navigation)
+      const interval = setInterval(() => {
+        if (window.turnstile && containerRef.current) {
+          if (!widgetIdRef.current) {
+            renderWidget();
+          }
+          clearInterval(interval);
+        }
+      }, 150);
+
+      // 3. Timeout fallback for offline or restricted environments (6 seconds)
+      const timeout = setTimeout(() => {
+        clearInterval(interval);
+        if (!widgetIdRef.current && !window.turnstile) {
           setScriptError(true);
         }
-      }, 3000);
-      return () => clearTimeout(timer);
-    }, [scriptLoaded]);
+      }, 6000);
 
-    React.useEffect(() => {
       return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
         if (widgetIdRef.current && typeof window !== 'undefined' && window.turnstile) {
           try {
             window.turnstile.remove(widgetIdRef.current);
           } catch {
             // ignore
           }
+          widgetIdRef.current = null;
         }
       };
-    }, []);
+    }, [renderWidget]);
 
     const handleDevBypass = () => {
       const dummyToken = `XXXX.DUMMY.TOKEN.${Date.now()}`;
       setIsVerified(true);
-      onVerify(dummyToken);
+      onVerifyRef.current?.(dummyToken);
     };
 
     return (
@@ -143,8 +161,8 @@ export const TurnstileWidget = React.forwardRef<TurnstileWidgetHandle, Turnstile
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="afterInteractive"
           onLoad={() => {
-            setScriptLoaded(true);
             setScriptError(false);
+            renderWidget();
           }}
           onError={() => setScriptError(true)}
         />

@@ -37,4 +37,8 @@ I'm here to build, learn in public, and collaborate on interesting open-source w
 
 ### Development activity
 
-![GitHub Activity](https://github-readme-activity-graph.vercel.app/graph?username=kennedys0&theme=github-compact)
+
+### GitHub stats
+
+![GitHub Stats](https://ghstats.dev/api/card?username=kennedys0)
+
